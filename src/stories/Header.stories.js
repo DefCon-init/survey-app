@@ -3,16 +3,31 @@ import React from 'react';
 import { Header } from './Header';
 
 export default {
-  title: 'Example/Header',
+  title: 'Components/Header',
   component: Header,
 };
 
 const Template = (args) => <Header {...args} />;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {},
+export const HeaderTemplateLoggedIn = Template.bind({});
+HeaderTemplateLoggedIn.args = {
+    isLoggedIn: true,
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const HeaderTemplateLogout = Template.bind({});
+HeaderTemplateLogout.args = {
+    isLoggedIn: false,
+};
+
+export const HeaderTemplateTitle = Template.bind({});
+HeaderTemplateTitle.args = {
+    isLoggedIn: true,
+    title: 'New Survey'
+};
+
+export const HeaderTemplateTitleBack = Template.bind({});
+HeaderTemplateTitleBack.args = {
+    isLoggedIn: true,
+    onBack: () => window.history.back(),
+    title: 'New Survey'
+};
