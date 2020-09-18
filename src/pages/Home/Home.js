@@ -1,62 +1,30 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { history } from "../../store";
-import { Button, Divider } from "antd";
+
+import { Button, Divider, Spin } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import { Header } from "../../components/Header/Header";
 import { Listing } from "../../components/Listing/Listing";
-const surveys = [
-  {
-    id: 1,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  },
-  {
-    id: 2,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  },
-  {
-    id: 3,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  },
-  {
-    id: 4,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  },
-  {
-    id: 5,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  },
-  {
-    id: 6,
-    loading: false,
-    title: "Survey 1",
-    value: 20,
-    description: "Survey 1 description"
-  }
-];
-export const Home = () => {
+
+const HomeComponent = props => {
   const redirectToAddSurvey = path => {
-    console.log("hellpo");
     return history.push("/addSurvey");
   };
+
+  useEffect(() => {
+    console.log(props);
+    if (!localStorage.token) {
+      history.push('/')
+    }
+    props.getUserSurvey()
+  }, []);
+
   return (
     <>
-      <Header isLoggedIn={true} />
+      <Header />
       <Button
         type='primary'
         shape='round'
@@ -69,7 +37,19 @@ export const Home = () => {
       <Divider style={{ margin: 16 }} orientation='left'>
         All Survey
       </Divider>
-      <Listing surveys={surveys} />
+      <Spin spinning={props.survey.surveysLoading}>
+        <Listing surveys={props.survey.surveys} />
+      </Spin>
     </>
   );
 };
+
+const mapStateToProps = state => ({
+  survey: state.survey
+});
+
+const mapDispatchToProps = dispatch => ({
+  getUserSurvey: dispatch.survey.getUserSurvey
+});
+
+export const Home = connect(mapStateToProps, mapDispatchToProps)(HomeComponent);

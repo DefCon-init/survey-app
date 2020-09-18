@@ -1,40 +1,41 @@
 import React from "react";
-import { CardComponent } from "../Card/Card";
+
 import { Skeleton } from "antd";
+import styled from "styled-components";
+
+import { CardComponent } from "../Card/Card";
+
+const Container = styled.div`
+display: flex;
+flex: 1 1 0%;
+flex-flow: row wrap;
+`;
+
+const NoSurveyContainer = styled.div`
+display: flex;
+flex: 1 1 0%;
+justify-content: center;
+font-size: 20px;
+margin: 16px;
+`;
 
 export const Listing = props => {
   const { loading, surveys, isResult } = props;
+
   return (
     <>
       {!loading && (
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            flexWrap: "wrap",
-            flexDirection: "row"
-          }}>
-          {!!surveys &&
-            surveys.length > 0 &&
-            surveys.map(survey => (
-              <CardComponent survey={survey} showResult={!!isResult} />
-            ))}
-        </div>
+        <Container>
+          {!!surveys && surveys.length > 0 && surveys.map(survey => <CardComponent survey={survey} showResult={!!isResult} />)}
+        </Container>
       )}
       {!loading && ((!!surveys && surveys.length === 0) || !surveys) && (
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            justifyContent: "center",
-            fontSize: 20,
-            margin: 16
-          }}>
+        <NoSurveyContainer>
           <p>
-            No survey found. Please click on <strong>New Survey</strong> button
+            No <span>{!!isResult ? 'results' : 'surveys'}</span> found. Please click on <strong>New Survey</strong> button
             to add a survey
           </p>
-        </div>
+        </NoSurveyContainer>
       )}
       <div style={{ margin: 16 }}>
         <Skeleton loading={loading} active></Skeleton>

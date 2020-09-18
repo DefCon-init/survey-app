@@ -10,6 +10,7 @@ import { AddSurvey } from "./pages/AddSurvey/AddSurvey"
 import { EditSurvey } from "./pages/EditSurvey/EditSurvey"
 import { GetSurvey } from "./pages/GetSurvey/GetSurvey"
 import { Result } from "./pages/Result/Result"
+import { ResultListing } from "./pages/Result/ResultListing"
 
 export default () => (
   <Router history={history}>
@@ -21,7 +22,8 @@ export default () => (
       <Route path='/addSurvey' component={AddSurvey} />
       <Route path='/editSurvey/:id' component={EditSurvey} />
       <Route path='/getSurvey/:id' component={GetSurvey} />
-      <Route path='/results' component={Result} />
+      <Route path='/fetchResults' component={Result} />
+      <Route path='/results/:surveyid' component={ResultListing} />
     </Switch>
   </Router>
 );
