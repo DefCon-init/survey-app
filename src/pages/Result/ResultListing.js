@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-// import { history } from "../../store";
+import { history } from "../../store";
 
 import "antd/dist/antd.css";
 import styled from "styled-components";
@@ -27,6 +27,10 @@ const ResultListingComponent = props => {
     props.deleteResult(record._id).then(res => props.getSurveyResult(surveyid));
   };
 
+  const onEdit = record => {
+    history.push(`edit/${record._id}`)
+  };
+
   const columns = [
     {
       title: "Surveyid",
@@ -43,7 +47,7 @@ const ResultListingComponent = props => {
       key: "action",
       render: (text, record) => (
         <Space size='middle'>
-          <EditOutlined />
+          <EditOutlined onClick={() => onEdit(record)} />
           <DeleteOutlined onClick={() => onDelete(record)} />
         </Space>
       )
@@ -52,13 +56,13 @@ const ResultListingComponent = props => {
 
   return (
     <>
-      <Header />
+      <Header onBack={() => window.history.back()} />
       <Divider style={{ margin: 16 }} orientation='left'>
         Results for {surveyid}
       </Divider>
       <Container>
         <Spin spinning={props.result.resultsLoading}>
-          <Table columns={columns} dataSource={props.result.results} />
+          <Table rowKey="_id" columns={columns} dataSource={props.result.results} />
         </Spin>
       </Container>
     </>

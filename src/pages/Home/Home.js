@@ -10,12 +10,11 @@ import { Header } from "../../components/Header/Header";
 import { Listing } from "../../components/Listing/Listing";
 
 const HomeComponent = props => {
-  const redirectToAddSurvey = path => {
+  const redirectToAddSurvey = () => {
     return history.push("/addSurvey");
   };
 
   useEffect(() => {
-    console.log(props);
     if (!localStorage.token) {
       history.push('/')
     }

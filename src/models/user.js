@@ -39,10 +39,8 @@ export default {
       try {
         this.setData({ userError: false, userLoading: true, userSuccess: false });
         const response = await postApi("/auth/login", data);
-        console.log(response)
         if (!!response.status) {
           localStorage.setItem('token', response.data.token)
-          console.log(response.status, response.data.token)
           this.setData({ userError: false, userLoading: false, userSuccess: true, user: response.data });
           return response;
         } else {

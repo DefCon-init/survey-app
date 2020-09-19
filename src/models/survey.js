@@ -149,7 +149,10 @@ export default {
       try {
         this.setCreateSurveyLoading();
         const response = await postApi(`/survey/create`, data, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": 'Bearer ' + localStorage.getItem('token')
+          }
         });
         if (!!response.status) {
           this.unsetCreateSurveyLoading();
@@ -165,7 +168,10 @@ export default {
       try {
         this.setEditSurveyLoading();
         const response = await putApi(`/survey/${id}`, data, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": 'Bearer ' + localStorage.getItem('token')
+          }
         });
         if (!!response.status) {
           this.unsetEditSurveyLoading();

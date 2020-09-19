@@ -14,7 +14,6 @@ export const GetSurveyForm = props => {
   }, []);
 
   let json = {};
-  console.log(props.survey);
   if (!!props.survey.survey) {
     try {
       json = JSON.parse(props.survey.survey.json);
@@ -26,7 +25,7 @@ export const GetSurveyForm = props => {
     <>
       <div style={{ margin: 16 }}>
         <Spin spinning={props.survey.surveyLoading}>
-          <Form json={json} />
+          <Form id={id} json={json} />
         </Spin>
       </div>
     </>

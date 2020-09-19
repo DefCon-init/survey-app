@@ -10,12 +10,10 @@ const EditSurveyForm = props => {
   let { id } = useParams();
 
   useEffect(() => {
-    if (!props.survey.survey) {
-      props.getSurvey(id);
-    }
+    props.getSurvey(id);
   }, []);
 
-  let json;
+  let json = {};
   if (!!props.survey.survey) {
     try {
       json = JSON.parse(props.survey.survey.json);

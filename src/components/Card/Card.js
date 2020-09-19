@@ -32,7 +32,6 @@ const CardComponentRender = props => {
   };
 
   const editClick = () => {
-    props.getSurvey(_id);
     history.push(`editSurvey/${_id}`)
   }
   
@@ -41,6 +40,10 @@ const CardComponentRender = props => {
     if (!!response.status) {
       props.getUserSurvey()
     }
+  }
+
+  const getResultClick = async (id) => {
+    history.push(`/results/${id}`)
   }
 
   if (!!showResult) {
@@ -71,7 +74,7 @@ const CardComponentRender = props => {
       <div key={_id} style={{ margin: 16 }}>
         <Card style={{ width: 300 }} actions={actions}>
           <Skeleton loading={loading} active>
-            <Meta title={_id} description={`Title - ${survey.title}`} />
+            <Meta title={_id} description={<><h4>Title - {survey.title}</h4><Button style={{width: '100%'}} onClick={() => getResultClick(_id)} >Get all results</Button></>} />
           </Skeleton>
         </Card>
       </div>

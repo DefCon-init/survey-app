@@ -145,11 +145,14 @@ export default {
         this.unsetDeleteResultLoading();
       }
     },
-    async editResult({ id, data }) {
+    async editResult({ resultid, data }) {
       try {
         this.setEditResultLoading();
-        const response = await putApi(`/result/${id}`, data, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        const response = await putApi(`/result/${resultid}`, data, {
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": 'Bearer ' + localStorage.getItem('token') 
+          }
         });
         if (!!response.status) {
           this.unsetEditResultLoading();
@@ -160,6 +163,25 @@ export default {
       } catch (err) {
         this.unsetEditResultLoading();
       }
-    }
+    },
+    async createResult(data) {
+      try {
+        this.setCreateResultLoading();
+        const response = await postApi(`/result/create`, data, {
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": 'Bearer ' + localStorage.getItem('token')
+          }
+        });
+        if (!!response.status) {
+          this.unsetCreateResultLoading();
+          return response;
+        } else {
+          this.unsetCreateResultLoading();
+        }
+      } catch (err) {
+        this.unsetCreateResultLoading();
+      }
+    },
   })
 };
