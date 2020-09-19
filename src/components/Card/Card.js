@@ -10,6 +10,8 @@ import {
   DeleteOutlined
 } from "@ant-design/icons";
 
+import { InlineForm } from "../InlineForm/InlineForm";
+
 const { Meta } = Card;
 
 const CardComponentRender = props => {
@@ -46,6 +48,22 @@ const CardComponentRender = props => {
     history.push(`/results/${id}`)
   }
 
+  const sendSms = async (values) => {
+    let data = {
+      surveylink: `http://localhost:3000/getSurvey/${_id}`,
+      phonecsv: values.phonecsv
+    }
+    const response = await props.sendSms(data)
+    if (response.status) {
+      handleCancel()
+    }
+  }
+
+  const sendEmail = async (values) => {
+    let mail = document.createElement("a");
+    mail.href = `mailto:${values.emailcsv}`;
+    mail.click();
+  }
   if (!!showResult) {
     actions.push(<Button type='text'>Get all {value} results</Button>);
   } else {
@@ -68,8 +86,8 @@ const CardComponentRender = props => {
         <p>
           Link of survey -{" "} <a href={`http://localhost:3000/getSurvey/${_id}`}>{`http://localhost:3000/getSurvey/${_id}`}</a>
         </p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <div style={{marginTop: 15, marginBottom: 15, marginRight: 15}}><InlineForm name="phonecsv" placeholder="Please enter phone number" buttonText="Send Sms" onFinish={sendSms} /></div>
+        <div style={{marginTop: 15, marginBottom: 15, marginRight: 15}}><InlineForm name="emailcsv" placeholder="Please enter your email" buttonText="Send Email" onFinish={sendEmail} /></div>
       </Modal>
       <div key={_id} style={{ margin: 16 }}>
         <Card style={{ width: 300 }} actions={actions}>
@@ -87,7 +105,8 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   getUserSurvey: dispatch.survey.getUserSurvey,
   getSurvey: dispatch.survey.getSurvey,
-  deleteSurvey: dispatch.survey.deleteSurvey
+  deleteSurvey: dispatch.survey.deleteSurvey,
+  sendSms: dispatch.survey.sendSms
 });
 
 export const CardComponent = connect(mapStateToProps, mapDispatchToProps)(CardComponentRender);

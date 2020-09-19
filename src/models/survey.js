@@ -10,7 +10,8 @@ export default {
     surveyLoading: false,
     deleteSurveyLoading: false,
     editSurveyLoading: false,
-    createSurveyLoading: false
+    createSurveyLoading: false,
+    sendSurveySmsLoading: false
   },
 
   /**
@@ -91,6 +92,18 @@ export default {
       return {
         ...state,
         createSurveyLoading: true
+      };
+    },
+    setSmsSurveyLoading(state) {
+      return {
+        ...state,
+        sendSurveySmsLoading: true
+      };
+    },
+    unsetSmsSurveyLoading(state) {
+      return {
+        ...state,
+        sendSurveySmsLoading: true
       };
     }
   },
@@ -182,6 +195,21 @@ export default {
       } catch (err) {
         this.unsetEditSurveyLoading();
       }
-    }
+    },
+    async sendSms(data) {
+      console.log(data)
+      try {
+        this.setSmsSurveyLoading();
+        const response = await postApi(`/survey/sendSurveySms`, data);
+        if (!!response.status) {
+          this.unsetSmsSurveyLoading();
+          return response;
+        } else {
+          this.unsetSmsSurveyLoading();
+        }
+      } catch (err) {
+        this.unsetSmsSurveyLoading();
+      }
+    },
   })
 };

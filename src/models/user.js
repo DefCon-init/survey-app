@@ -7,7 +7,10 @@ export default {
     user: null,
     userLoading: false,
     userSuccess: false,
-    userError: false
+    userError: false,
+    registerLoading: false,
+    registerSuccess: false,
+    registerError: false
   },
 
   /**
@@ -20,9 +23,10 @@ export default {
         ...payload
       };
     },
-    resetAuth(state) {
+    resetAuth(state, payload) {
       return {
-        ...state
+        ...state,
+        ...payload
       };
     }
   },
@@ -52,13 +56,29 @@ export default {
     },
     async logout() {
       await localStorage.removeItem("token");
-      this.resetAuth()
+      this.resetAuth({
+        user: null,
+        userLoading: false,
+        userSuccess: false,
+        userError: false,
+        registerLoading: false,
+        registerSuccess: false,
+        registerError: false
+      })
     },
     async register(data) {
+      this.setData({ registerError: false, registerLoading: true, registerSuccess: false });
       try {
         const response = await postApi("/auth/register", data);
-        return response;
-      } catch (err) {}
+        if (!!response.status) {
+          this.setData({ registerError: false, registerLoading: false, registerSuccess: true });
+          return response;
+        } else {
+          this.setData({ registerError: true, registerLoading: false, registerSuccess: false });
+        }
+      } catch (err) {
+        this.setData({ registerError: true, registerLoading: false, registerSuccess: false });
+      }
     }
   })
 };
